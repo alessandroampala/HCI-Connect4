@@ -1,13 +1,16 @@
 class Board:
-    #Constructor for the Board object
-    def _init_(self, size, max_point):
-        self._size=size
-        self._max_point=max_point
+    # Constructor for the Board object
+    def __init__(self, size):
+        self._size = size
+        self._board = []
+        # Create empty matrix
+        for i in range(self._size):
+            self._board.append([])
 
-    #Get size of the board
+    # Get size of the board
     def get_size(self):
-        return self.size
-    
-    #Get how many points a player need to finish a game
-    def get_max_points(self):
-        return self.max_point
+        return self._size
+
+    # Set the color of a cell
+    def set_cell(self, x, y, player):
+        self._board[x][y] = player.get_color()
