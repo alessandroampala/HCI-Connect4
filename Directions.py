@@ -1,7 +1,7 @@
-from enum import Enum, auto
+from enum import IntEnum
 
 
-class Direction(Enum):
+class Direction(IntEnum):
     HORIZONTAL = 0
     VERTICAL = 1
     OBLIQUE_R = 2  # Represents NE && SW direction
@@ -22,7 +22,7 @@ class Direction(Enum):
     def generic_to_accurate(direction_generic):
         if direction_generic == Direction.VERTICAL:
             return DirectionAccurate.N, DirectionAccurate.S
-        if direction_generic == Direction.VERTICAL:
+        if direction_generic == Direction.HORIZONTAL:
             return DirectionAccurate.E, DirectionAccurate.E
         if direction_generic == Direction.OBLIQUE_R:
             return DirectionAccurate.NE, DirectionAccurate.SW
@@ -30,12 +30,12 @@ class Direction(Enum):
             return DirectionAccurate.NW, DirectionAccurate.SE
 
 
-class DirectionAccurate(Enum):
+class DirectionAccurate(IntEnum):
     N = 0
-    S = auto()
-    E = auto()
-    W = auto()
-    NE = auto()
-    NW = auto()
-    SE = auto()
-    SW = auto()
+    S = 1
+    E = 2
+    W = 3
+    NE = 4
+    NW = 5
+    SE = 6
+    SW = 7

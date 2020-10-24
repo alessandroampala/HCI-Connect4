@@ -17,3 +17,9 @@ class Cell:
 
     def set_dir_value(self, direction, value):
         self._direction_list[direction] = value
+
+    def get_player(self):
+        return self._player
+
+    def same_player_as(self, cell):
+        return self._player == cell.get_player()
