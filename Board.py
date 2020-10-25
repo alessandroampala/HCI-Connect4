@@ -4,7 +4,10 @@ from Directions import Direction, DirectionAccurate
 
 class Board:
     # Constructor for the Board object
+    # size: length of a single board row
+    # sequence_points: points list. Index represents the length, value the points associated
     def __init__(self, size, sequence_points):
+        """size: length of a single board row. sequence_points: points list. Index represents the length, value the points associated"""
         self._size = size
         self._board = []
         self._sequence_points = sequence_points
@@ -14,28 +17,34 @@ class Board:
 
     # Get size of the board
     def get_size(self):
+        """Get size of the board"""
         return self._size
 
     # Set the color of a cell
-    # Returns >0 if color has been placed successfully, 0 otherwise
     def set_cell(self, x, y, player):
+        """Set the color of a cell"""
         assert self._board[x][y] is None
         self._board[x][y] = Cell(x, y, player)
         self.update_board(self._board[x][y])
 
+    # Returns Cell object in the specified position
     def get_cell(self, x, y):
+        """Returns Cell object in the specified position"""
         if x < 0 or y < 0 or x >= self.get_size() or y >= self.get_size():
             return None  # MAYBE DANGEROUS?!
         return self._board[x][y]
 
+    # Corresponding points for a sequence of length sequence_length
     def get_sequence_points(self, sequence_length):
+        """Corresponding points for a sequence of length sequence_length"""
         length = len(self._sequence_points)
         if sequence_length > length:
             return self._sequence_points[length - 1]
         return self._sequence_points[sequence_length]
 
-    # Updates board cell lists from a starting cell
+    # Updates board sequences from a new, just-placed starting cell
     def update_board(self, cell):
+        """Updates board sequences from a new, just-placed starting cell"""
         # one for each DirectionAccurate, indicates whether it has been already updated
         already_managed_adjs = [False] * 8
         for direction in Direction:  # handle double adj case
@@ -58,8 +67,11 @@ class Board:
         if not all_false:
             cell.get_player().set_points(cell.get_player().get_points() + self.get_sequence_points(1))
 
-    # updates values of a sequence of adjacent cells in both direction
+    # updates direction_list values of a sequence of adjacent cells in both direction
+    # this function must be called only when placing a player color
     def update_sequence_double(self, start, direction_generic):
+        """updates direction_list values of a sequence of adjacent cells in both direction.
+        this function must be called only when placing a player color"""
         dir1, dir2 = Direction.generic_to_accurate(direction_generic)
         neighbour1 = self.get_cell_in_direction(start, dir1)
         neighbour2 = self.get_cell_in_direction(start, dir2)
@@ -70,6 +82,7 @@ class Board:
         player = start.get_player()  # Get start's Player object
 
         new_points = 0
+        # Subtract old points only if the placement of that cell added points for a 1-length sequence
         if not (old_value1 == 1 and not neighbour1.is_isolated()):
             new_points += -self.get_sequence_points(old_value1)
         if not (old_value2 == 1 and not neighbour2.is_isolated()):
@@ -85,10 +98,11 @@ class Board:
             neighbour2.set_dir_value(direction_generic, updated_value)
             neighbour2 = self.get_cell_in_direction(neighbour2, dir2)
 
-    # updates values of a sequence of adjacent cells in a specific direction
+    # updates direction_list values of a sequence of adjacent cells in a specific direction
     # this function must be called only when placing a player color
-    # also_update_start :: Bool
     def update_sequence(self, start, direction_accurate):
+        """updates direction_list values of a sequence of adjacent cells in a specific direction.
+        this function must be called only when placing a player color"""
         next_cell = self.get_cell_in_direction(start, direction_accurate)
         if next_cell is not None:
             generic_dir = Direction.accurate_to_generic(direction_accurate)
@@ -108,6 +122,7 @@ class Board:
 
     # returns cell object in direction direction_accurate from starting cell
     def get_cell_in_direction(self, cell, direction_accurate):
+        """returns cell object in direction direction_accurate from starting cell"""
         if direction_accurate == DirectionAccurate.N:
             return self.get_cell(cell.get_x(), cell.get_y() - 1)
         if direction_accurate == DirectionAccurate.S:
@@ -127,6 +142,7 @@ class Board:
 
     # Checks if point has 2 adj in same Direction
     def check_double_adj(self, cell, direction):
+        """Checks if point has 2 adj in same Direction"""
         for generic in Direction:
             if direction == generic:
                 dir1, dir2 = Direction.generic_to_accurate(generic)

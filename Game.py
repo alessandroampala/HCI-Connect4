@@ -15,19 +15,26 @@ class Game:
         self._win_points = win_points
         self._winner = None
 
+    # Returns Cell object in the specified position
     def get_cell(self, x, y):
         return self._board.get_cell(x, y)
 
+    # Set the color of a cell
     def set_cell(self, x, y, player):
         self._board.set_cell(x, y, player)
 
+    # Returns True if game ended
+    # If this returns true, the get_winner method will return the winner Player
     def game_ended(self):
+        """Returns True if game ended.
+        If this returns true, the get_winner method will return the winner Player"""
         for player in self._players:
             if player.get_points() >= self._win_points:
                 self._winner = player
                 return True
         return False
 
+    # Returns the Player that won the game
     def get_winner(self):
         return self._winner
 

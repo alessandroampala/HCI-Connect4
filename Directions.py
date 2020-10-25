@@ -9,6 +9,7 @@ class Direction(IntEnum):
 
     @staticmethod
     def accurate_to_generic(direction_accurate):
+        """Converts DirectionAccurate to Direction"""
         if direction_accurate == DirectionAccurate.N or direction_accurate == DirectionAccurate.S:
             return Direction.VERTICAL
         if direction_accurate == DirectionAccurate.E or direction_accurate == DirectionAccurate.W:
@@ -20,6 +21,7 @@ class Direction(IntEnum):
 
     @staticmethod
     def generic_to_accurate(direction_generic):
+        """Converts Direction to DirectionAccurate"""
         if direction_generic == Direction.VERTICAL:
             return DirectionAccurate.N, DirectionAccurate.S
         if direction_generic == Direction.HORIZONTAL:
