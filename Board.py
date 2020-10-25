@@ -68,7 +68,14 @@ class Board:
         updated_value = 1 + old_value1 + old_value2
         start.set_dir_value(direction_generic, updated_value)  # Update cell's direction value
         player = start.get_player()  # Get start's Player object
-        new_points = player.get_points() - self.get_sequence_points(old_value1) - self.get_sequence_points(old_value2) + self.get_sequence_points(1 + old_value1 + old_value2)
+
+        new_points = 0
+        if not (old_value1 == 1 and not neighbour1.is_isolated()):
+            new_points += -self.get_sequence_points(old_value1)
+        if not (old_value2 == 1 and not neighbour2.is_isolated()):
+            new_points += -self.get_sequence_points(old_value2)
+
+        new_points += player.get_points() + self.get_sequence_points(1 + old_value1 + old_value2)
         player.set_points(new_points)
 
         while neighbour1 is not None and start.same_player_as(neighbour1):
