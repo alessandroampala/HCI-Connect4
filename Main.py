@@ -1,27 +1,7 @@
-from colour import Color
-from Game import *
+from PyQt5 import QtWidgets
+import sys
+import layoutpython.MenuGui as Menu
 
-if __name__ == "__main__":
-    # players
-    players = [Player(1, Color("red")), Player(2, Color("blue"))]
-
-    # points
-    _win_points = 50
-    points = [5, 2, 50, 4, 3]
-
-    game = Game(players, 5, points, _win_points)
-    # game.set_cell(0, 0, players[0])
-    # game.set_cell(0, 1, players[0])
-
-    game.set_cell(1, 0, players[0])
-    game.set_cell(1, 1, players[0])
-    game.set_cell(1, 2, players[0])
-    game.set_cell(1, 3, players[0])
-    game.set_cell(1, 4, players[0])
-    game.set_cell(0, 3, players[0])
-    game.set_cell(2, 0, players[0])
-    # game.set_cell(0, 1, players[1])
-    # game.set_cell(0, 2, players[1])
-    # game.set_cell(0, 3, players[1])
-    game.debug_print_board()
-    game.debug_print_player_points()
+app = QtWidgets.QApplication(sys.argv)
+window = Menu.MenuGui()
+app.exec_()

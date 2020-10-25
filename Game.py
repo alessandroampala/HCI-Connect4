@@ -21,6 +21,7 @@ class Game:
 
     # Set the color of a cell
     def set_cell(self, x, y, player):
+        print("here")
         self._board.set_cell(x, y, player)
     
     # Returns players list
