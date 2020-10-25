@@ -22,7 +22,6 @@ class Game:
         return self._board.get_cell(x, y)
 
     def set_cell(self, x, y, player):
-        print("here")
         self._board.set_cell(x, y, player)
 
     # Return true if game ended

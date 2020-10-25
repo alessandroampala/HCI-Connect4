@@ -1,6 +1,4 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
-import layoutpython.MenuGui as MenuGui
-import Game
 import threading
 import time
 
@@ -15,8 +13,6 @@ class GameGui(QtWidgets.QMainWindow):
 
         self.players_round_position = 0
 
-        self._cell_clicked_flag = False
-
         self.round = game_round
 
         self.menu_window = menu_window
@@ -30,14 +26,16 @@ class GameGui(QtWidgets.QMainWindow):
         self.players = self.round.get_players()
         self.show_score()
 
+        self.yourTurnPushButton.setStyleSheet(
+            "background-color: " + self.players[self.players_round_position].get_color() + "; border: 2px solid white; border-radius: 20px;")
+        self.playerNameLabel.setText(self.players[self.players_round_position].get_name())
+
         self.show()  # Show the GUI
 
         self.retryButton.clicked.connect(self.retry_button_pressed)
 
         self.backButton.clicked.connect(self.back_button_pressed)
 
-        t = threading.Thread(target=self.play_round)
-        t.start()
 
     def add_board(self):
         for x in range(15):
@@ -51,7 +49,6 @@ class GameGui(QtWidgets.QMainWindow):
                 cell_button.setMinimumSize(40, 40)
                 cell_button.setCursor(QtGui.QCursor(
                     QtCore.Qt.PointingHandCursor))
-                cell_button.setEnabled(False)
 
                 cell_button.clicked.connect(
                     lambda: self.cell_button_pressed(self.sender()))
@@ -68,10 +65,16 @@ class GameGui(QtWidgets.QMainWindow):
 
         index = self.boardGridLayout.indexOf(cell_button)
         position = self.boardGridLayout.getItemPosition(index)
-        print(int(position[0]), int(position[1]), self.players[self.players_round_position])
+
         self.round.set_cell(int(position[0]), int(position[1]), self.players[self.players_round_position])
 
-        self._cell_clicked_flag = True
+        self.players_round_position = (self.players_round_position + 1) % len(self.players)
+
+        self.yourTurnPushButton.setStyleSheet(
+            "background-color: " + self.players[
+                self.players_round_position].get_color() + "; border: 2px solid white; border-radius: 20px;")
+        self.playerNameLabel.setText(self.players[self.players_round_position].get_name())
+
 
     def retry_button_pressed(self):
         self.close()
@@ -121,20 +124,5 @@ class GameGui(QtWidgets.QMainWindow):
 
             self.score_row_points += 1
 
-    def manage_cells_button(self, enable_button):
-        for row in range(self.round.get_size()):
-            for col in range(self.round.get_size()):
-                self.boardGridLayout.itemAtPosition(row, col).widget().setEnabled(enable_button)
 
-    def play_round(self):
-        self.players_round_position = 0
-        self.manage_cells_button(True)
-        for player in self.players:
-            self.yourTurnPushButton.setStyleSheet(
-                "background-color: " + player.get_color() + "; border: 2px solid white; border-radius: 20px;")
-            self.playerNameLabel.setText(player.get_name())
-            while not self._cell_clicked_flag:
-                time.sleep(0.2)
-            self._cell_clicked_flag = False
-            self.players_round_position += 1
-        self.manage_cells_button(False)
+
