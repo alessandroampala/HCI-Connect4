@@ -28,10 +28,3 @@ class Game:
     def game_ended(self):
         assert False
         return  # replace with end condition
-
-    def debug_print_board(self):
-        self._board.debug_print_board()
-
-    def debug_print_player_points(self):
-        for player in self._players:
-            print("Player" + str(player.get_name()) + ": " + str(player.get_points()))
