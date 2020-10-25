@@ -12,10 +12,17 @@ class Game:
         self._board = Board(size, points)
         self._players = players
 
+    def get_players(self):
+        return self._players
+
+    def get_size(self):
+        return self._board.get_size()
+
     def get_cell(self, x, y):
         return self._board.get_cell(x, y)
 
     def set_cell(self, x, y, player):
+        print("here")
         self._board.set_cell(x, y, player)
 
     # Return true if game ended
