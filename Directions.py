@@ -23,7 +23,7 @@ class Direction(IntEnum):
         if direction_generic == Direction.VERTICAL:
             return DirectionAccurate.N, DirectionAccurate.S
         if direction_generic == Direction.HORIZONTAL:
-            return DirectionAccurate.E, DirectionAccurate.E
+            return DirectionAccurate.E, DirectionAccurate.W
         if direction_generic == Direction.OBLIQUE_R:
             return DirectionAccurate.NE, DirectionAccurate.SW
         if direction_generic == Direction.OBLIQUE_L:

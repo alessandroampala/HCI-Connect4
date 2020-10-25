@@ -19,14 +19,14 @@ class Board:
     # Set the color of a cell
     # Returns >0 if color has been placed successfully, 0 otherwise
     def set_cell(self, x, y, player):
-        assert self._board[y][x] is None
-        self._board[y][x] = Cell(x, y, player)
-        self.update_board(self._board[y][x])
+        assert self._board[x][y] is None
+        self._board[x][y] = Cell(x, y, player)
+        self.update_board(self._board[x][y])
 
     def get_cell(self, x, y):
-        if x < 0 or y < 0 or x > self.get_size() or y > self.get_size():
+        if x < 0 or y < 0 or x >= self.get_size() or y >= self.get_size():
             return None  # MAYBE DANGEROUS?!
-        return self._board[y][x]
+        return self._board[x][y]
 
     def get_sequence_points(self, sequence_length):
         length = len(self._sequence_points)
@@ -34,7 +34,6 @@ class Board:
             return self._sequence_points[length - 1]
         return self._sequence_points[sequence_length]
 
-    # TODO: Update player points
     # Updates board cell lists from a starting cell
     def update_board(self, cell):
         # one for each DirectionAccurate, indicates whether it has been already updated
@@ -89,7 +88,11 @@ class Board:
             next_cell_value = next_cell.get_dir_value(generic_dir)
             start.set_dir_value(generic_dir, next_cell_value + 1)
             player = start.get_player()
-            new_points = player.get_points() - next_cell_value + self.get_sequence_points(next_cell_value + 1)
+            if next_cell_value == 1 and not next_cell.is_isolated():
+                new_points = player.get_points() + self.get_sequence_points(next_cell_value + 1)
+            else:
+                new_points = player.get_points() - self.get_sequence_points(next_cell_value) + self.get_sequence_points(next_cell_value + 1)
+
             player.set_points(new_points)
 
             while next_cell is not None and start.same_player_as(next_cell):
@@ -99,21 +102,21 @@ class Board:
     # returns cell object in direction direction_accurate from starting cell
     def get_cell_in_direction(self, cell, direction_accurate):
         if direction_accurate == DirectionAccurate.N:
-            return self.get_cell(cell.get_x(), cell.get_y() + 1)
-        if direction_accurate == DirectionAccurate.S:
             return self.get_cell(cell.get_x(), cell.get_y() - 1)
+        if direction_accurate == DirectionAccurate.S:
+            return self.get_cell(cell.get_x(), cell.get_y() + 1)
         if direction_accurate == DirectionAccurate.E:
             return self.get_cell(cell.get_x() + 1, cell.get_y())
         if direction_accurate == DirectionAccurate.W:
             return self.get_cell(cell.get_x() - 1, cell.get_y())
         if direction_accurate == DirectionAccurate.NE:
-            return self.get_cell(cell.get_x() + 1, cell.get_y() + 1)
-        if direction_accurate == DirectionAccurate.NW:
-            return self.get_cell(cell.get_x() - 1, cell.get_y() + 1)
-        if direction_accurate == DirectionAccurate.SE:
             return self.get_cell(cell.get_x() + 1, cell.get_y() - 1)
-        if direction_accurate == DirectionAccurate.SW:
+        if direction_accurate == DirectionAccurate.NW:
             return self.get_cell(cell.get_x() - 1, cell.get_y() - 1)
+        if direction_accurate == DirectionAccurate.SE:
+            return self.get_cell(cell.get_x() + 1, cell.get_y() + 1)
+        if direction_accurate == DirectionAccurate.SW:
+            return self.get_cell(cell.get_x() - 1, cell.get_y() + 1)
 
     # Checks if point has 2 adj in same Direction
     def check_double_adj(self, cell, direction):

@@ -23,3 +23,9 @@ class Cell:
 
     def same_player_as(self, cell):
         return self._player == cell.get_player()
+
+    def is_isolated(self):
+        for val in self._direction_list:
+            if val > 1:
+                return False
+        return True
