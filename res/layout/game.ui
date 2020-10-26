@@ -86,7 +86,7 @@
              <x>0</x>
              <y>0</y>
              <width>372</width>
-             <height>451</height>
+             <height>498</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -180,46 +180,6 @@
         </item>
         <item>
          <layout class="QGridLayout" name="scoreGridLayout_2"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="retryButton">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>400</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">#retryButton{
-	background-color: orange;
-	border: 0;
-	color: white;
-	font-size: 12pt;
-	height: 40px;
-}
-
-#retryButton:hover{
-	background-color:#b27300;
-}</string>
-          </property>
-          <property name="text">
-           <string>RETRY</string>
-          </property>
-         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="backButton">

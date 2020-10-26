@@ -27,26 +27,28 @@ class GameGui(QtWidgets.QMainWindow):
         self.show_score()
 
         self.yourTurnPushButton.setStyleSheet(
-            "background-color: " + self.players[self.players_round_position].get_color() + "; border: 2px solid white; border-radius: 20px;")
+            "background-color: " + self.players[
+                self.players_round_position].get_color() + "; border: 2px solid white; border-radius: 20px;")
         self.playerNameLabel.setText(self.players[self.players_round_position].get_name())
 
         self.show()  # Show the GUI
 
-        self.retryButton.clicked.connect(self.retry_button_pressed)
-
         self.backButton.clicked.connect(self.back_button_pressed)
 
+    def lerp(self, A, B, C):
+        return (C * A) + ((1 - C) * B)
 
     def add_board(self):
-        for x in range(15):
-            for y in range(15):
+        size = self.lerp(40, 110, self.round.get_size() / 15)
+        for x in range(self.round.get_size()):
+            for y in range(self.round.get_size()):
                 cell_button = QtWidgets.QPushButton()
                 cell_button.setStyleSheet(
                     "background-color: white; border: 2px solid white; border-radius: 15px;")
                 cell_button.setSizePolicy(
                     QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-                cell_button.setMaximumSize(40, 40)
-                cell_button.setMinimumSize(40, 40)
+                cell_button.setMaximumSize(size, size)
+                cell_button.setMinimumSize(size, size)
                 cell_button.setCursor(QtGui.QCursor(
                     QtCore.Qt.PointingHandCursor))
 
@@ -68,16 +70,15 @@ class GameGui(QtWidgets.QMainWindow):
 
         self.round.set_cell(int(position[0]), int(position[1]), self.players[self.players_round_position])
 
+        self.scoreGridLayout.itemAtPosition(self.players_round_position + 1, 2).widget().setText(
+            str(self.players[self.players_round_position].get_points()))
+
         self.players_round_position = (self.players_round_position + 1) % len(self.players)
 
         self.yourTurnPushButton.setStyleSheet(
             "background-color: " + self.players[
                 self.players_round_position].get_color() + "; border: 2px solid white; border-radius: 20px;")
         self.playerNameLabel.setText(self.players[self.players_round_position].get_name())
-
-
-    def retry_button_pressed(self):
-        self.close()
 
     def back_button_pressed(self):
         self.menu_window.show()
@@ -123,6 +124,3 @@ class GameGui(QtWidgets.QMainWindow):
             self.scoreGridLayout.addWidget(score_line_edit, self.score_row_points, 2)
 
             self.score_row_points += 1
-
-
-
