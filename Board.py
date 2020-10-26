@@ -12,6 +12,7 @@ class Board:
         self._board = []
         self._sequence_points = sequence_points
         # Create empty matrix
+
         for i in range(self._size):
             self._board.append([None] * self._size)
 
@@ -64,6 +65,7 @@ class Board:
         all_false = False
         for boolean in already_managed_adjs:
             all_false = all_false or boolean
+
         if not all_false:
             cell.get_player().set_points(cell.get_player().get_points() + self.get_sequence_points(1))
 
@@ -148,7 +150,8 @@ class Board:
                 dir1, dir2 = Direction.generic_to_accurate(generic)
                 neighbour1 = self.get_cell_in_direction(cell, dir1)
                 neighbour2 = self.get_cell_in_direction(cell, dir2)
-                return neighbour1 is not None and neighbour2 is not None and cell.same_player_as(neighbour1) and cell.same_player_as(neighbour2)
+                return neighbour1 is not None and neighbour2 is not None and cell.same_player_as(
+                    neighbour1) and cell.same_player_as(neighbour2)
 
     def debug_print_board(self):
         for i in range(self.get_size()):
