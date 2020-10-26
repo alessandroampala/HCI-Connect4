@@ -22,6 +22,14 @@ class Game:
     # Set the color of a cell
     def set_cell(self, x, y, player):
         self._board.set_cell(x, y, player)
+    
+    # Returns players list
+    def get_players(self):
+        return self._players
+
+    # Returns size of the board
+    def get_size(self):
+        return self._board.get_size()
 
     # Returns True if game ended
     # If this returns true, the get_winner method will return the winner Player
