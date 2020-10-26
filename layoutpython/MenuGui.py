@@ -221,7 +221,10 @@ class MenuGui(QtWidgets.QMainWindow):
             points = self.pointsGridLayout.itemAtPosition(i, 1).widget().text()
 
             if not points.isnumeric():
-                points = "0"
+                if sequence_points == []:
+                    points = "0"
+                else:
+                    points = sequence_points[-1]
             elif int(points) > int(points_to_win):
                 self.resultLabel.setText(
                     "Row: " + str(i) + " Max value = " + points_to_win)

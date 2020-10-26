@@ -87,11 +87,11 @@ class GameGui(QtWidgets.QMainWindow):
         self.hideGame.hide()
         self.scoreScrollArea.setMaximumWidth(16777215)
         self.backButton.setMaximumWidth(16777215)
-        winner_name = self.round.get_winner().get_name()
+        winner_name = self.round.get_winner()
         for row in range(1, len(self.players)+1):
             item_name = self.scoreGridLayout.itemAtPosition(row, 1)
             item_score = self.scoreGridLayout.itemAtPosition(row, 2)
-            if item_name.widget().text() == winner_name:
+            if winner_name is None or item_name.widget().text() == winner_name.get_name():
                 item_name.widget().setStyleSheet("font-size:10pt; color:white; background-color: lightgreen")
                 item_score.widget().setStyleSheet("font-size:10pt; color:white;background-color: lightgreen")
             else:
