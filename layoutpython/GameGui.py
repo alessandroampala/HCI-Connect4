@@ -75,10 +75,28 @@ class GameGui(QtWidgets.QMainWindow):
 
         self.players_round_position = (self.players_round_position + 1) % len(self.players)
 
+        if self.round.game_ended():
+            self.show_winner()
+
         self.yourTurnPushButton.setStyleSheet(
             "background-color: " + self.players[
                 self.players_round_position].get_color() + "; border: 2px solid white; border-radius: 20px;")
         self.playerNameLabel.setText(self.players[self.players_round_position].get_name())
+
+    def show_winner(self):
+        self.hideGame.hide()
+        self.scoreScrollArea.setMaximumWidth(16777215)
+        self.backButton.setMaximumWidth(16777215)
+        winner_name = self.round.get_winner().get_name()
+        for row in range(1, len(self.players)+1):
+            item_name = self.scoreGridLayout.itemAtPosition(row, 1)
+            item_score = self.scoreGridLayout.itemAtPosition(row, 2)
+            if item_name.widget().text() == winner_name:
+                item_name.widget().setStyleSheet("font-size:10pt; color:white; background-color: lightgreen")
+                item_score.widget().setStyleSheet("font-size:10pt; color:white;background-color: lightgreen")
+            else:
+                item_name.widget().setStyleSheet("font-size:10pt; color:white;background-color: tomato")
+                item_score.widget().setStyleSheet("font-size:10pt; color:white;background-color: tomato")
 
     def back_button_pressed(self):
         self.menu_window.show()

@@ -451,8 +451,8 @@ QLineEdit{
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>750</width>
-               <height>211</height>
+               <width>226</width>
+               <height>96</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -695,11 +695,10 @@ QLineEdit{
                     <pointsize>10</pointsize>
                     <weight>0</weight>
                     <bold>false</bold>
-                    <strikeout>false</strikeout>
                    </font>
                   </property>
                   <property name="text">
-                   <string>0</string>
+                   <string>2</string>
                   </property>
                   <property name="readOnly">
                    <bool>true</bool>

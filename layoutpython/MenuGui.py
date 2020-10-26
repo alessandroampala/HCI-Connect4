@@ -119,7 +119,7 @@ class MenuGui(QtWidgets.QMainWindow):
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sequence_length.setMaximumHeight(30)
         sequence_length.setMinimumHeight(30)
-        sequence_length.setText(str(self.row_points-1))
+        sequence_length.setText(str(self.row_points+1))
         sequence_length.setEnabled(False)
 
         points = QtWidgets.QLineEdit()
@@ -230,4 +230,4 @@ class MenuGui(QtWidgets.QMainWindow):
 
             sequence_points.append(int(points))
 
-        return sequence_points, int(size), int(points_to_win)
+        return [0]+sequence_points, int(size), int(points_to_win)
