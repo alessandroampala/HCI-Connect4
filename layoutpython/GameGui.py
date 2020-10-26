@@ -1,6 +1,4 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
-import threading
-import time
 
 
 class GameGui(QtWidgets.QMainWindow):
@@ -35,8 +33,9 @@ class GameGui(QtWidgets.QMainWindow):
 
         self.backButton.clicked.connect(self.back_button_pressed)
 
-    def lerp(self, A, B, C):
-        return (C * A) + ((1 - C) * B)
+    @staticmethod
+    def lerp(a, b, c):
+        return (c * a) + ((1 - c) * b)
 
     def add_board(self):
         size = self.lerp(40, 110, self.round.get_size() / 15)
@@ -59,9 +58,9 @@ class GameGui(QtWidgets.QMainWindow):
 
     def cell_button_pressed(self, cell_button):
         cell_button.setStyleSheet(
-            "border: 2px solid white; border-radius: 15px; background-color: " + self.yourTurnPushButton.palette().color(
-                QtGui.QPalette.Background).name() + ";")
-        cell_button.clicked.disconnect()
+            "border: 2px solid white; border-radius: 15px; background-color: "
+            + self.yourTurnPushButton.palette().color(QtGui.QPalette.Background).name() + ";")
+        cell_button.setEnabled(False)
         cell_button.setCursor(QtGui.QCursor(
             QtCore.Qt.ArrowCursor))
 
@@ -88,7 +87,7 @@ class GameGui(QtWidgets.QMainWindow):
         self.scoreScrollArea.setMaximumWidth(16777215)
         self.backButton.setMaximumWidth(16777215)
         winner_name = self.round.get_winner()
-        for row in range(1, len(self.players)+1):
+        for row in range(1, len(self.players) + 1):
             item_name = self.scoreGridLayout.itemAtPosition(row, 1)
             item_score = self.scoreGridLayout.itemAtPosition(row, 2)
             if winner_name is None or item_name.widget().text() == winner_name.get_name():
