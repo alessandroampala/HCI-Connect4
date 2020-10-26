@@ -11,6 +11,7 @@ class Board:
         self._size = size
         self._board = []
         self._sequence_points = sequence_points
+        self._empty_cells = size * size
         # Create empty matrix
         for i in range(self._size):
             self._board.append([None] * self._size)
@@ -26,6 +27,7 @@ class Board:
         assert self._board[x][y] is None
         self._board[x][y] = Cell(x, y, player)
         self.update_board(self._board[x][y])
+        self._empty_cells -= 1
 
     # Returns Cell object in the specified position
     def get_cell(self, x, y):
@@ -149,6 +151,11 @@ class Board:
                 neighbour1 = self.get_cell_in_direction(cell, dir1)
                 neighbour2 = self.get_cell_in_direction(cell, dir2)
                 return neighbour1 is not None and neighbour2 is not None and cell.same_player_as(neighbour1) and cell.same_player_as(neighbour2)
+
+    # Returns True if all the cells have been placed
+    def is_full(self):
+        """Returns True if all the cells have been placed"""
+        return self._empty_cells == 0
 
     def debug_print_board(self):
         for i in range(self.get_size()):
