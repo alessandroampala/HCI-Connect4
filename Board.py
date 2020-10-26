@@ -38,7 +38,7 @@ class Board:
     def get_sequence_points(self, sequence_length):
         """Corresponding points for a sequence of length sequence_length"""
         length = len(self._sequence_points)
-        if sequence_length > length:
+        if sequence_length >= length:
             return self._sequence_points[length - 1]
         return self._sequence_points[sequence_length]
 
