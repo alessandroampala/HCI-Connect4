@@ -41,7 +41,9 @@ class MenuGui(QtWidgets.QMainWindow):
         player_container.setContentsMargins(5, 5, 5, 5)
         player_container.setSpacing(0)
 
-        vertical_spacer = QtWidgets.QSpacerItem(
+        vertical_spacer_top = QtWidgets.QSpacerItem(
+            20, 40, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        vertical_spacer_bottom = QtWidgets.QSpacerItem(
             20, 40, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
 
         player_name = QtWidgets.QLineEdit()
@@ -63,12 +65,12 @@ class MenuGui(QtWidgets.QMainWindow):
         player_color.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         player_color.clicked.connect(self.player_button_pressed)
 
-        player_container.addItem(vertical_spacer)
+        player_container.addItem(vertical_spacer_top)
         player_container.addWidget(
             player_color, alignment=QtCore.Qt.AlignCenter)
         player_container.addWidget(
             player_name, alignment=QtCore.Qt.AlignCenter)
-        player_container.addItem(vertical_spacer)
+        player_container.addItem(vertical_spacer_bottom)
 
         self.horizontalLayoutScrollArea.insertLayout(
             self._players, player_container)
