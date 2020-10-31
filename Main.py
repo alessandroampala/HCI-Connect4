@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets
 import sys
-import layoutpython.MenuGui as Menu
+import layoutpython.MenuGui as Menu_Gui
 
-app = QtWidgets.QApplication(sys.argv)
-window = Menu.MenuGui()
-app.exec_()
+# Starts the main menu window if Main.py file is called directly
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = Menu_Gui.MenuGui()
+    app.exec_()
