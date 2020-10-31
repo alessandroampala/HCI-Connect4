@@ -36,12 +36,13 @@ class Game:
     def game_ended(self):
         """Returns True if game ended.
         If this returns true, the get_winner method will return the winner Player"""
-        if self._board.is_full():
-            return True
         for player in self._players:
             if player.get_points() >= self._win_points:
                 self._winner = player
                 return True
+            
+        if self._board.is_full():
+            return True
         return False
 
     # Returns the Player that won the game
