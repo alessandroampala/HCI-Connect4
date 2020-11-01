@@ -8,9 +8,9 @@ import layoutpython.GameGui as Game_Gui
 class MenuGui(QtWidgets.QMainWindow):
     # Constructor for the main menu
     def __init__(self):
-        self._player_colors = ["#000000", "#800000", "#9a6324", "#808000", "#469990", "#e6194b", "#f58231", "#ffe119",
-                               "#bfef45", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6", "#a9a9a9", "#fabed4",
-                               "#ffd8b1", "#fffac8", "#aaffc3", "#dcbeff"]
+        self._player_colors = ["#e6194b", "#f58231", "#469990", "#ffe119", "#bfef45", "#3cb44b", "#42d4f4", "#4363d8",
+                               "#911eb4", "#f032e6", "#a9a9a9", "#fabed4", "#ffd8b1", "#fffac8", "#aaffc3", "#dcbeff",
+                               "#000000", "#800000", "#9a6324", "#808000"]
         self._players = 1
         self._row_points = 1
 
