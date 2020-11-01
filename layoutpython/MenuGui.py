@@ -195,13 +195,13 @@ class MenuGui(QtWidgets.QMainWindow):
         points_to_win = self.pointsToWinLineEdit.text()
         sequence_points = []
 
-        if not size.isnumeric() or int(size) > 15:
-            self.resultLabel.setText("Size should be a number. Max size = 15")
+        if not size.isnumeric() or int(size) > 15 or int(size) < 1:
+            self.resultLabel.setText("Size should be a number. Min size = 1, Max size = 15")
             return [], 0, 0
 
-        if not points_to_win.isnumeric() or int(points_to_win) > 1000:
+        if not points_to_win.isnumeric() or int(points_to_win) > 1000 or int(points_to_win) < 1:
             self.resultLabel.setText(
-                "Points to win should be a number. Max value = 1000")
+                "Points to win should be a number. Min value = 1, Max value = 1000")
             return [], 0, 0
 
         for i in range(1, self._row_points):

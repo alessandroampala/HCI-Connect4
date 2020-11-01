@@ -14,6 +14,7 @@ class GameGui(QtWidgets.QMainWindow):
 
         super(GameGui, self).__init__()
         uic.loadUi("res/layout/game.ui", self)
+        self.setWindowTitle("Game")
         self.setWindowIcon(QtGui.QIcon("res/images/unito.png"))
         self.showMaximized()
         self.show()
