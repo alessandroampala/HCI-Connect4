@@ -7,7 +7,8 @@ import layoutpython.GameGui as Game_Gui
 
 class MenuGui(QtWidgets.QMainWindow):
     # Constructor for the main menu
-    def __init__(self):
+    def __init__(self, screen_size):
+        self._screen_size = screen_size
         self._player_colors = ["#e6194b", "#f58231", "#469990", "#ffe119", "#bfef45", "#3cb44b", "#42d4f4", "#4363d8",
                                "#911eb4", "#f032e6", "#a9a9a9", "#fabed4", "#ffd8b1", "#fffac8", "#aaffc3", "#dcbeff",
                                "#000000", "#800000", "#9a6324", "#808000"]
@@ -220,3 +221,6 @@ class MenuGui(QtWidgets.QMainWindow):
             sequence_points.append(int(points))
 
         return sequence_points, int(size), int(points_to_win)
+
+    def get_screen_size(self):
+        return self._screen_size

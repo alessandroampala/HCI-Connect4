@@ -25,16 +25,34 @@ class GameGui(QtWidgets.QMainWindow):
         self.backButton.clicked.connect(self.back_button_pressed)
 
     @staticmethod
-    # Generates a dynamic size
-    # a ->  min size
-    # b -> max size
-    # c -> size chosen by the players divided by the max value of N (NxN)
-    def lerp(a, b, c):
-        return (c * a) + ((1 - c) * b)
+    # Linearly interpolates between a and b by t
+    # a -> The start value
+    # b -> The end value
+    # t -> The interpolation value
+    def lerp(a, b, t):
+        return (1 - t) * a + b * t
+
+    @staticmethod
+    # Calculates the linear parameter t that produces the interpolant value within the range [a, b]
+    # a -> Start value
+    # b -> End value
+    # v -> Value between start and end
+    def inverse_lerp(a, b, v):
+        return (v - a) / (b - a)
+
+    @staticmethod
+    # Remaps the value from one range to another
+    # i_min, i_max -> Start range
+    # o_min, o_max -> End range
+    # v            -> Value to remap
+    def remap(i_min, i_max, o_min, o_max, v):
+        return GameGui.lerp(o_min, o_max, GameGui.inverse_lerp(i_min, i_max, v))
 
     # Generates the cells for the board, connects them to the handler and chooses the first player
     def add_board(self):
-        size = self.lerp(40, 110, self._round.get_size() / 15)
+        screen_size = self._menu_window.get_screen_size()
+        size = self.lerp(self.remap(768, 1080, 90, 110, screen_size.height()),
+                         self.remap(768, 1080, 30, 45, screen_size.height()), self._round.get_size() / 15)
         for x in range(self._round.get_size()):
             for y in range(self._round.get_size()):
                 cell_button = QtWidgets.QPushButton()
