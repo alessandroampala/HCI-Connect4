@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import Player
 import Game
+import json
 import layoutpython.ColorGui as Color_Gui
 import layoutpython.GameGui as Game_Gui
 
@@ -159,15 +160,41 @@ class MenuGui(QtWidgets.QMainWindow):
         color_widget = Color_Gui.ColorGui(self.sender(), self._player_colors)
         color_widget.show()
 
-    # Hides the main menu and opens the game window
+    # Hides the main menu and opens the game window or opens the game with preset
     def play_button_pressed(self):
         self.resultLabel.clear()
         sequence_points, size, points_to_win = self.get_settings()
         players = self.get_players()
         if players and sequence_points:
-            play_window = Game_Gui.GameGui(Game.Game(players, size, sequence_points, points_to_win), self)
-            play_window.show()
-            self.hide()
+            self.load_game(Game.Game(players, size, sequence_points, points_to_win))
+        elif not players or not sequence_points:
+            self.load_preset_window()
+
+    # Loads the game window
+    def load_game(self, game_settings):
+        play_window = Game_Gui.GameGui(game_settings, self)
+        play_window.show()
+        self.hide()
+
+    # Loads preset dialog window
+    def load_preset_window(self):
+        preset_window = QtWidgets.QMessageBox()
+        preset_window.setWindowTitle("Load Preset")
+        preset_window.setText("Do you want to load preset?")
+        preset_window.setWindowIcon(QtGui.QIcon("res/images/unito.png"))
+        preset_window.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
+        preset_window.setDefaultButton(QtWidgets.QMessageBox.Yes)
+        preset_window.buttonClicked.connect(self.preset_button)
+        preset_window.exec_()
+
+    # Button pressed on the preset dialog window
+    def preset_button(self, button):
+        if button.text() != "Cancel":
+            with open('layoutpython/preset.json') as json_file:
+                data = json.load(json_file)
+                self.load_game(
+                    Game.Game(self.get_players(), data["size"], data["sequence_points"], data["points_to_win"]))
+                self.resultLabel.setText("")
 
     # Closes the main menu
     def exit_button_pressed(self):
