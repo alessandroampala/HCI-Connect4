@@ -132,8 +132,8 @@ QLabel{
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>780</width>
-           <height>200</height>
+           <width>776</width>
+           <height>204</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -418,7 +418,7 @@ QLineEdit{
 </string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="board">
          <property name="autoFillBackground">
@@ -451,8 +451,8 @@ QLineEdit{
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>156</width>
-               <height>90</height>
+               <width>750</width>
+               <height>211</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -501,6 +501,9 @@ QLineEdit{
                   <weight>0</weight>
                   <bold>false</bold>
                  </font>
+                </property>
+                <property name="text">
+                 <string>50</string>
                 </property>
                 <property name="placeholderText">
                  <string>Max points to win a game</string>
@@ -552,7 +555,7 @@ QLineEdit{
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string/>
+                 <string>10</string>
                 </property>
                 <property name="placeholderText">
                  <string>Size of N (NxN)</string>
@@ -601,8 +604,8 @@ QLineEdit{
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>760</width>
-               <height>232</height>
+               <width>233</width>
+               <height>101</height>
               </rect>
              </property>
              <property name="styleSheet">

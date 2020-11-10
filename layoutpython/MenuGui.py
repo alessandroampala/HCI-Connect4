@@ -1,7 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import Player
 import Game
-import json
 import layoutpython.ColorGui as Color_Gui
 import layoutpython.GameGui as Game_Gui
 
@@ -25,14 +24,18 @@ class MenuGui(QtWidgets.QMainWindow):
 
         self.new_player_button_pressed()
         self.new_player_button_pressed()
-        self.new_point_button_pressed()
+        self.new_point_button_pressed(point="0")
+        self.new_point_button_pressed(point="0")
+        self.new_point_button_pressed(point="2")
+        self.new_point_button_pressed(point="10")
+        self.new_point_button_pressed(point="50")
         self.connect_buttons()
 
     # Connects buttons to handlers
     def connect_buttons(self):
         self.newPlayerButton.clicked.connect(self.new_player_button_pressed)
         self.removePlayerButton.clicked.connect(self.remove_player_button_pressed)
-        self.addPointsButton.clicked.connect(self.new_point_button_pressed)
+        self.addPointsButton.clicked.connect(lambda: self.new_point_button_pressed())
         self.removePointsButton.clicked.connect(self.remove_point_button_pressed)
         self.playButton.clicked.connect(self.play_button_pressed)
         self.exitButton.clicked.connect(self.exit_button_pressed)
@@ -110,7 +113,7 @@ class MenuGui(QtWidgets.QMainWindow):
             self.removePlayerButton.hide()
 
     # Adds new field for points based on a sequence of length self._row_points
-    def new_point_button_pressed(self):
+    def new_point_button_pressed(self, point=""):
         sequence_length = QtWidgets.QLineEdit()
         sequence_length.setStyleSheet(
             "font-size:10pt")
@@ -128,6 +131,7 @@ class MenuGui(QtWidgets.QMainWindow):
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         points.setMaximumHeight(30)
         points.setMinimumHeight(30)
+        points.setText(point)
 
         self.pointsGridLayout.addWidget(sequence_length, self._row_points, 0)
         self.pointsGridLayout.addWidget(points, self._row_points, 1)
@@ -166,35 +170,9 @@ class MenuGui(QtWidgets.QMainWindow):
         sequence_points, size, points_to_win = self.get_settings()
         players = self.get_players()
         if players and sequence_points:
-            self.load_game(Game.Game(players, size, sequence_points, points_to_win))
-        elif not players or not sequence_points:
-            self.load_preset_window()
-
-    # Loads the game window
-    def load_game(self, game_settings):
-        play_window = Game_Gui.GameGui(game_settings, self)
-        play_window.show()
-        self.hide()
-
-    # Loads preset dialog window
-    def load_preset_window(self):
-        preset_window = QtWidgets.QMessageBox()
-        preset_window.setWindowTitle("Load Preset")
-        preset_window.setText("Do you want to load preset?")
-        preset_window.setWindowIcon(QtGui.QIcon("res/images/unito.png"))
-        preset_window.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
-        preset_window.setDefaultButton(QtWidgets.QMessageBox.Yes)
-        preset_window.buttonClicked.connect(self.preset_button)
-        preset_window.exec_()
-
-    # Button pressed on the preset dialog window
-    def preset_button(self, button):
-        if button.text() != "Cancel":
-            with open('layoutpython/preset.json') as json_file:
-                data = json.load(json_file)
-                self.load_game(
-                    Game.Game(self.get_players(), data["size"], data["sequence_points"], data["points_to_win"]))
-                self.resultLabel.setText("")
+            play_window = Game_Gui.GameGui(Game.Game(players, size, sequence_points, points_to_win), self)
+            play_window.show()
+            self.hide()
 
     # Closes the main menu
     def exit_button_pressed(self):
